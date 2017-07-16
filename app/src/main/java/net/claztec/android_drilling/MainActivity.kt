@@ -1,5 +1,6 @@
 package net.claztec.android_drilling
 
+import android.animation.ObjectAnimator
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,32 +13,21 @@ class MainActivity : AppCompatActivity() {
     val TAG = MainActivity::class.java.name
 
     lateinit var textMessage: TextView
-    lateinit var animFadeIn: Animation
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         textMessage = findViewById(R.id.textView)
-        animFadeIn = AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in)
+
 
         textMessage.visibility = View.VISIBLE
-        textMessage.animation = animFadeIn
 
-        animFadeIn.setAnimationListener(object: Animation.AnimationListener {
-            override fun onAnimationRepeat(p0: Animation?) {
-                Log.d(TAG, "애니메이션 반복")
-            }
+        val anim: ObjectAnimator = ObjectAnimator.ofFloat(textMessage, "rotationY", 0.0F, 180.0F)
+        anim.duration = 3000
+        anim.start()
 
-            override fun onAnimationEnd(p0: Animation?) {
-                Log.d(TAG, "애니메이션 끝")
-                textMessage.visibility = View.GONE
-            }
 
-            override fun onAnimationStart(p0: Animation?) {
-                Log.d(TAG, "애니메이션 시작")
-            }
-
-        })
     }
 }
